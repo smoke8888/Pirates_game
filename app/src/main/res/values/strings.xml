@@ -1,0 +1,21 @@
+<resources>
+    <string name="application_name">Pirates_game</string>
+    <string name="button1_text">Раздать карты</string>
+    <string name="button2_text">Начать заново</string>
+    <string name="text_deck">Игровое поле</string>
+    <string name="text_pile">Отложенные карты</string>
+    <string name="contentDescription1">Карта №1</string>
+    <string name="contentDescription2">Карта №2</string>
+    <string name="contentDescription3">Карта №3</string>
+    <string name="contentDescription4">Карта №4</string>
+    <string name="contentDescription5">Карта №5</string>
+    <string name="contentDescription6">Карта №6</string>
+    <string name="card_transition">card</string>
+
+    <string name="card_color_orange">Оранжевые карты</string>
+    <string name="card_color_green">Зеленые карты</string>
+    <string name="card_color_red">Красные карты</string>
+    <string name="card_color_blue">Синие карты</string>
+    <string name="card_color_yellow">Желтые карты</string>
+    <string name="go_button">Начать</string>
+</resources>
