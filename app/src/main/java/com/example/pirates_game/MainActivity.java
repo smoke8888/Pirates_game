@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv2;
 
     private String card_color;
+
+    Logger logger;
+
+    public static TextView test_view; // тест
+    public Button test_btn;
+    private Client cln;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +81,19 @@ public class MainActivity extends AppCompatActivity {
         game = new Deck(this, card_color);
 
         button_get_cards.callOnClick(); // вывод карт на игровое поле после первого старта
+
+        logger = Logger.getLogger(MainActivity.class.getName()); // подключаем LOG
+        logger.setLevel(Level.ALL);
+
+
+        Server srv = new Server();
+        srv.go();
+        test_view = findViewById(R.id.textView3);
+        test_btn = findViewById(R.id.button6);
+        test_btn.setOnClickListener(onClickListener);
+
+        cln = new Client();
+        cln.go();
     }
 
     //обработчик нажатия на кнопки _________________________________________________________________
@@ -145,19 +169,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case R.id.button2: {  // НАЧАТЬ ЗАНОВО
-                    /*tv1.setText("");
-                    tv2.setText("");
-                    im1.setImageResource(0);
-                    im2.setImageResource(0);
-                    im3.setImageResource(0);
-                    im4.setImageResource(0);
-                    im5.setImageResource(0);
-                    im6.setImageResource(0);
-
-                    game = new Deck();
-                    button_get_cards.setEnabled(true);*/
-
                     onBackPressed();
+                    break;
+                }
+                case R.id.button6: {  // TEST
+                    logger.fine("Нажали кнопку TEST");
+                    cln.sendMessage("bla bla bla bla )))");
                     break;
                 }
             }

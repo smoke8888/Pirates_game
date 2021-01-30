@@ -7,10 +7,18 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Server{
 
     ArrayList clientOutputStreams;
+    Logger logger;
+
+    public Server() {
+        logger = Logger.getLogger(MainActivity.class.getName()); // подключаем LOG
+        logger.setLevel(Level.ALL);
+    }
 
     public class ClientHandler implements Runnable {
         Socket socket;
@@ -23,6 +31,7 @@ public class Server{
                 reader = new BufferedReader(isReader);
             }
             catch (IOException ioe) {
+                logger.severe("method server.ClientHandler: " + ioe.getMessage());
             }
         }
 
@@ -33,25 +42,27 @@ public class Server{
                     saveMessage(message);
                 }
             }
-            catch (IOException ioe){}
+            catch (IOException ioe){
+                logger.severe("method server.run: " + ioe.getMessage());
+            }
         }
     }
 
     public void go(){
-         clientOutputStreams = new ArrayList();
-         try{
-             ServerSocket serverSocket = new ServerSocket(5000);
-             while (true){
-                 Socket clientSocket = serverSocket.accept();
-                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
-                 clientOutputStreams.add(writer);
-                 Thread t = new Thread(new ClientHandler(clientSocket));
-                 t.start();
-             }
-         }
-         catch (IOException ioe) {}
+        clientOutputStreams = new ArrayList();
+        try (ServerSocket serverSocket = new ServerSocket(5000);) {
+            while (true){
+                Socket clientSocket = serverSocket.accept();
+                PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+                clientOutputStreams.add(writer);
+                Thread t = new Thread(new ClientHandler(clientSocket));
+                t.start();
+            }
+        }
+        catch (IOException ioe) {
+            logger.severe("method server.go: " + ioe.getMessage());
+        }
     }
-
 
     public void saveMessage(String message){
         // написать обработчик сообщений клиента
